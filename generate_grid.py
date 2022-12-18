@@ -1,51 +1,33 @@
-from random import randint
 import numpy as np
-import plotly.express as px
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
+
+gradient = [(250, 250, 110), (237, 247, 111), (224, 244, 112), (212, 241, 113), (200, 237, 115), (188, 234, 117),
+            (176, 230, 120), (165, 226, 122), (153, 222, 124), (142, 218, 127), (131, 214, 129), (121, 210, 131),
+            (110, 205, 133), (100, 201, 135), (90, 196, 137), (80, 191, 139), (70, 187, 140), (60, 182, 141),
+            (50, 177, 142), (40, 172, 143), (30, 167, 143), (18, 162, 143), (3, 157, 143), (0, 152, 142), (0, 147, 141),
+            (0, 142, 140), (0, 137, 138), (0, 132, 136), (0, 126, 134), (0, 121, 131), (5, 116, 128), (14, 111, 125),
+            (21, 106, 121), (26, 101, 117), (30, 96, 113), (34, 91, 108), (37, 86, 103), (39, 81, 99), (41, 77, 93),
+            (42, 72, 88)]
+MAX_VALUE = float('-infinity')
+MIN_VALUE = float('infinity')
+
 
 class Grid:
     def __init__(self, rows, columns):
         self.rows = rows
         self.cols = columns
 
-    def generate_starting_population(self):
-        x = np.array([[[randint(0, 255), randint(0, 255), randint(0,255)] for i in range(self.rows)] for j in range(self.cols)], dtype = np.uint8)
+    def generate_population(self, population):
+        global MAX_VALUE, MIN_VALUE
+
+        population_2d = np.array(population).reshape(self.rows, self.cols)
+        MIN_VALUE = min(np.min(population_2d), MIN_VALUE)
+        MAX_VALUE = max(np.max(population_2d), MAX_VALUE)
+        for i in range(self.rows):
+            for j in range(self.cols):
+                print(round((len(gradient) - 1) * ((population_2d[i][j]) - MIN_VALUE) / (MAX_VALUE - MIN_VALUE)))
+        x = np.array(
+            [[list(gradient[round((len(gradient) - 1) * ((population_2d[i][j]) - MIN_VALUE) / (MAX_VALUE - MIN_VALUE))])
+              for i in range(self.rows)] for j in range(self.cols)],
+            dtype=np.uint8)
 
         return x
-
-if __name__ == "__main__":
-
-    populations = []
-    grid = Grid(16, 16)
-
-    for i in range(16):
-        populations.append(grid.generate_starting_population())
-
-
-    populations = np.array(populations)
-
-    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.01, subplot_titles = ("Initial Population", "Original Population"))
-
-    fig_px = px.imshow(populations, animation_frame=0)
-
-    sliders = fig_px.layout.sliders
-    updatemenus = fig_px.layout.updatemenus
-
-
-    frames =[go.Frame(data=[go.Image(z=populations[0]),
-                            go.Image(z=populations[k], visible=True, name=str(k)),
-                            ],
-                      traces=[0,1], name=str(k)) for k in range(populations.shape[0])]
-
-    fig.add_trace(go.Image(z=populations[0]), row=1, col=1)
-    fig.add_trace(go.Image(z=populations[1]), row=1, col=2)
-
-    fig.update_yaxes(visible=False, showticklabels=False)
-    fig.update_xaxes(visible=False, showticklabels=False)
-
-    fig.update(frames=frames)
-    fig.update_layout(updatemenus=updatemenus, sliders=sliders)
-    fig.update_layout(sliders=[{"currentvalue": {"prefix": "Current Generation="}}])
-
-fig.show()

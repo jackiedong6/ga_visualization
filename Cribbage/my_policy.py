@@ -11,6 +11,10 @@ simulated_data = {(1, 12): 4.033074606116775, (9, 13): 3.6586538461538463, (3, 1
 
 
 
+SCORE_15 = 0
+LOW_CARD = 0
+
+
 class MyPolicy(CribbagePolicy):
     def __init__(self, game):
         self._policy = CompositePolicy(game, HeuristicThrower(game), HeuristicPegger(game))
