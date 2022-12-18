@@ -24,10 +24,10 @@ if __name__ == "__main__":
         game = Blotto(units, scoring_distribution)
 
         initial_fitness = game.evaluate_fitness()
-        dim = game.num_individuals ** (1/2)
+        dim = int(game.num_individuals ** (1/2))
         grid = Grid(dim, dim)
         populations.append(grid.generate_population(initial_fitness))
-        for _ in range(10):
+        for _ in range(15):
             populations.append(grid.generate_population(game.crossover()))
 
     if sys.argv[1] == "--Cribbage":
