@@ -1,8 +1,8 @@
-from policy import CribbagePolicy, CompositePolicy, GreedyThrower, GreedyPegger
-from policy import ThrowPolicy, PegPolicy
-from scoring import score, greedy_throw
+from .policy import CribbagePolicy, CompositePolicy, GreedyThrower, GreedyPegger
+from .policy import ThrowPolicy, PegPolicy
+from .scoring import score, greedy_throw
 from collections import defaultdict
-from deck import Deck, Card
+from .deck import Deck, Card
 import random
 
 

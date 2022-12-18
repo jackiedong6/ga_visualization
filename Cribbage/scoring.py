@@ -1,6 +1,6 @@
 import itertools as it
 import random
-from deck import Card
+from .deck import Card
 
 def greedy_throw(game, deal, crib):
     """ Returns a greedy choice of which cards to throw.  The greedy choice

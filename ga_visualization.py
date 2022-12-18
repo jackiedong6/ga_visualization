@@ -18,8 +18,8 @@ if __name__ == "__main__":
 
     if sys.argv[1] == "--Cribbage":
         games = 2
-        if len(sys.argv) > 1:
-            games = int(sys.argv[1])
+        if len(sys.argv) > 2:
+            games = int(sys.argv[2])
 
         game = Game()
         benchmark = CompositePolicy(game, GreedyThrower(game), GreedyPegger(game))
@@ -27,6 +27,7 @@ if __name__ == "__main__":
 
 
         results = evaluate_policies(game, submission, benchmark, games)
+
 
 
 

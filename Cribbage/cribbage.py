@@ -1,9 +1,9 @@
 import itertools as it
 import sys
 
-import scoring
-from deck import Deck,Card
-from pegging import Pegging
+from .scoring import score
+from .deck import Deck,Card
+from .pegging import Pegging
 
 class Game:
     def __init__(self):
@@ -230,12 +230,12 @@ class Game:
                     play = None
 
                 log(play)
-                history, score = history.play(self, play, 0 if peg_turn == dealer else 1)
-                if score > 0:
-                    scores[peg_turn] += score
+                history, scored = history.play(self, play, 0 if peg_turn == dealer else 1)
+                if scored > 0:
+                    scores[peg_turn] += scored
                     log(scores)
-                elif score < 0:
-                    scores[1 - peg_turn] += -score
+                elif scored < 0:
+                    scores[1 - peg_turn] += -scored
                     log(scores)
 
                 # remove played card from player's possible cards
@@ -257,14 +257,14 @@ class Game:
 
             # score non-dealer's hand
             if max(scores) < self.winning_score():
-                hand_score = scoring.score(self, keeps[1 - dealer][0], turn, False)
+                hand_score = score(self, keeps[1 - dealer][0], turn, False)
                 log("NON-DEALER: " + str(keeps[1 - dealer][0]) + " " + str(hand_score))
                 scores[1 - dealer] += hand_score[0]
                 log(scores)
 
             # score dealer's hand
             if max(scores) < self.winning_score():
-                hand_score = scoring.score(self, keeps[dealer][0], turn, False)
+                hand_score = score(self, keeps[dealer][0], turn, False)
                 log("DEALER: " + str(keeps[dealer][0]) + " " + str(hand_score))
                 scores[dealer] += hand_score[0]
                 log(scores)
@@ -272,7 +272,7 @@ class Game:
             # score crib
             if max(scores) < self.winning_score():
                 crib = keeps[dealer][1] + keeps[1 - dealer][1]
-                hand_score = scoring.score(self, crib, turn, True)
+                hand_score = score(self, crib, turn, True)
                 log("CRIB: " + str(crib) + str(hand_score))
                 scores[dealer] += hand_score[0]
                 log(scores)
