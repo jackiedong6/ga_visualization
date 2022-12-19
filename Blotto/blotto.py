@@ -27,6 +27,8 @@ class Blotto:
         return [choice(self.possible_distributions) for _ in range(self.num_individuals)]
 
     def generate_targets(self):
+        # [try to cull them to get like.. the top 25% or something like that -- says Glenn]
+        # like deep Q-learning idea: fix target and then update
         return sample(self.possible_distributions, len(self.possible_distributions))
 
     def play(self, individual_one, individual_two):
@@ -71,6 +73,8 @@ class Blotto:
             # perform the crossover:
             x = randint(0, 1)
             if x == 0:
+                # randomly choose unit distributions from parents - Glenn says it sounds reasonable
+                # and then re-scale
                 child_one = parent_one
                 child_two = parent_one
 
