@@ -44,7 +44,6 @@ if __name__ == "__main__":
         print("NET:", results[0])
         print(results)
 
-
     populations = np.array(populations)
 
     fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.01,

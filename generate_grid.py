@@ -22,9 +22,9 @@ class Grid:
         population_2d = np.array(population).reshape(self.rows, self.cols)
         MIN_VALUE = min(np.min(population_2d), MIN_VALUE)
         MAX_VALUE = max(np.max(population_2d), MAX_VALUE)
-        for i in range(self.rows):
-            for j in range(self.cols):
-                print(round((len(gradient) - 1) * ((population_2d[i][j]) - MIN_VALUE) / (MAX_VALUE - MIN_VALUE)))
+        # for i in range(self.rows):
+        #     for j in range(self.cols):
+        #         print(round((len(gradient) - 1) * ((population_2d[i][j]) - MIN_VALUE) / (MAX_VALUE - MIN_VALUE)))
         x = np.array(
             [[list(gradient[round((len(gradient) - 1) * ((population_2d[i][j]) - MIN_VALUE) / (MAX_VALUE - MIN_VALUE))])
               for i in range(self.rows)] for j in range(self.cols)],

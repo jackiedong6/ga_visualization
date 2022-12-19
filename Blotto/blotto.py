@@ -8,7 +8,7 @@ class Blotto:
         self.units = units
         self.score_distribution = score_distribution
         self.battle_fields = len(score_distribution)
-        self.num_individuals = 144
+        self.num_individuals = 256
         self.possible_distributions = self.partition_battle_field_units()
 
         self.target_distributions = self.generate_targets()
@@ -69,20 +69,33 @@ class Blotto:
             parent_two = self.population[np.random.choice(range(self.num_individuals), 1, p=probs)[0]]
 
             # perform the crossover:
-            x = randint(0, 1)
-            if x == 0:
-                child_one = parent_one
-                child_two = parent_one
+            child_one = [0] * self.battle_fields
+            child_two = [0] * self.battle_fields
+            for i in range(self.battle_fields):
+                if randint(0, 1) == 0:
+                    child_one[i] = parent_one[i]
+                    child_two[i] = parent_two[i]
+                else:
+                    child_one[i] = parent_two[i]
+                    child_two[i] = parent_one[i]
+            child_one_sum = sum(child_one)
+            child_two_sum = sum(child_two)
 
-            else:
-                child_one = parent_two
-                child_two = parent_two
+            if child_one_sum > self.units:
+                diff = child_one_sum - self.units
+                for i in range(self.battle_fields):
+                    if child_one[i] - diff >= 0:
+                        child_one[i] -= diff
+            if child_two_sum > self.units:
+                diff = child_two_sum - self.units
 
+                for i in range(self.battle_fields):
+                    if child_two[i] - diff >= 0:
+                        child_two[i] -= diff
             children.append(child_one)
             children.append(child_two)
 
         self.population = children
-
         return fitness
 
     def mutate(self, individual):
