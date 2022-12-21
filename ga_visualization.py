@@ -27,8 +27,8 @@ if __name__ == "__main__":
             scoring_distribution.append(int(sys.argv[i]))
 
         game = Blotto(units, scoring_distribution)
-            
-            
+
+        # generate initial grid            
         initial_fitness = game.evaluate_fitness()
         dim = int(game.num_individuals ** (1/2))
         x = np.array(initial_fitness).reshape(dim, dim)
@@ -36,8 +36,6 @@ if __name__ == "__main__":
         populations.append(grid.generate_population(initial_fitness))
         
         prev = sum(initial_fitness)
-        
-        
         
         while True: 
             new_fitness = game.crossover()
@@ -55,26 +53,6 @@ if __name__ == "__main__":
         populations.append(grid.generate_population(initial_fitness))
         for _ in range(5):
             populations.append(grid.generate_population(game.crossover()))
-
-
-    if sys.argv[1] == "--qfl":
-        # `example: python3 ga_visualization.py --qfl 0 9 250000`
-        if len(sys.argv) > 2:
-            game = int(sys.argv[2])
-            limit = float(sys.argv[3])
-            n = int(sys.argv[4])
-
-        model = nfl.NFLStrategy(*game_parameters[game])
-        start = time.time();
-        policy = qfl.q_learn(model, limit);
-        t = time.time() - start
-        # if t > limit:
-        #     print("WARNING: Q-learning ran for", t, "seconds; allowed", limit)
-        
-        print(model.simulate(policy, n))
-        
-        sys.exit() # dk if the figure will work here
-
 
     legend = grid.generate_legend()
     populations = np.array(populations)
