@@ -55,6 +55,7 @@ if __name__ == "__main__":
         for _ in range(5):
             populations.append(grid.generate_population(game.crossover()))
 
+    # make plot
     legend = grid.generate_legend()
     populations = np.array(populations)
 
@@ -65,7 +66,6 @@ if __name__ == "__main__":
     sliders = fig_px.layout.sliders
     updatemenus = fig_px.layout.updatemenus
 
-
     frames  = [go.Frame(data=[go.Image(z=populations[0]),
                              go.Image(z=populations[k], visible=True, name=str(k)),
                              go.Image(z=legend),
@@ -75,7 +75,6 @@ if __name__ == "__main__":
     fig.add_trace(go.Image(z=populations[0]), row=1, col=1)
     fig.add_trace(go.Image(z=populations[1]), row=1, col=2)
     fig.add_trace(go.Image(z = legend), row = 1, col = 3)
-#     fig.add_trace(go.Image(z=legend), row = 1, col = 3)
 
     fig.update_yaxes(visible=False, showticklabels=False)
     fig.update_xaxes(visible=False, showticklabels=False)

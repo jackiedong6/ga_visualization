@@ -11,7 +11,6 @@ gradient = [(250, 250, 110),
 MAX_VALUE = float('-infinity')
 MIN_VALUE = float('infinity')
 
-
 class Grid:
     def __init__(self, rows, columns):
         self.rows = rows

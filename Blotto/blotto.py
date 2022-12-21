@@ -48,6 +48,8 @@ class Blotto:
             return 0.5
 
     def evaluate_fitness(self):
+        """Plays an individual against all strategies in the target distribution;
+        returns the number of wins"""
         self.fitness = []
         for individual in self.population:
             curr_fitness = 0
@@ -61,6 +63,7 @@ class Blotto:
         return self.fitness
 
     def mutate(self, individual):
+        """Mutates an individual's strategy with probability = MUTATE_PROB"""
         if uniform(0,1) < MUTATE_PROB:
             index = randint(0, self.battle_fields - 1)
             individual[index] = randint(0, self.units)

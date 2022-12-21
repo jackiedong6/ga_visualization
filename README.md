@@ -95,7 +95,7 @@ For Cribbage (`cribbage_ga.py`), we used `genetic algorithms` to optimize the va
 We again used softmax to convert the fitness scores into probabilities, and for crossover, we randomly chose two parents repeatedly according to these probabilities. For each pair of two parents, we performed crossover by randomly choosing one of the two parents' parameters for all three parameters.
 
 ## Mutation
-We introduced an exploratory aspect of our genetic algorithm for Cribbage by randomly mutating individuals with probability epsilon = 0.2. This meant 20% of the time we would slightly jiggle one of the parameters of an individual randomly. 
+We introduced an exploratory aspect of our genetic algorithm for Cribbage by randomly mutating individuals with probability epsilon = 0.2. This meant that for 20% of the time we would slightly vary one of the parameters of an individual randomly. 
 
 ---
 
