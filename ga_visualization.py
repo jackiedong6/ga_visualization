@@ -17,7 +17,7 @@ from plotly.subplots import make_subplots
 
 
 if __name__ == "__main__":
-    # print(plotly.__version__, pandas.__version__, np.__version__)
+
     populations = []
     if sys.argv[1] == "--Blotto":
         tolerance = 10 ** -6
@@ -43,7 +43,8 @@ if __name__ == "__main__":
                 break
             populations.append(grid.generate_population(new_fitness))
             prev = sum(new_fitness)
-            
+        
+        print(game.population)
 
     if sys.argv[1] == "--Cribbage":
         game  = Cribbage_GA()
@@ -53,6 +54,26 @@ if __name__ == "__main__":
         populations.append(grid.generate_population(initial_fitness))
         for _ in range(5):
             populations.append(grid.generate_population(game.crossover()))
+
+
+    if sys.argv[1] == "--qfl":
+        # `example: python3 ga_visualization.py --qfl 0 9 250000`
+        if len(sys.argv) > 2:
+            game = int(sys.argv[2])
+            limit = float(sys.argv[3])
+            n = int(sys.argv[4])
+
+        model = nfl.NFLStrategy(*game_parameters[game])
+        start = time.time();
+        policy = qfl.q_learn(model, limit);
+        t = time.time() - start
+        # if t > limit:
+        #     print("WARNING: Q-learning ran for", t, "seconds; allowed", limit)
+        
+        print(model.simulate(policy, n))
+        
+        sys.exit() # dk if the figure will work here
+
 
     legend = grid.generate_legend()
     populations = np.array(populations)

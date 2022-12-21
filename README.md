@@ -6,6 +6,50 @@
 - Jackie Dong (jd2598)
 
 
+# Important (Virtual Environment Setup):
+- We have included our virtual environment folder called `venv`. The dependencies required for this program are `pandas`, `numpy`, and `plotly`. Before testing our implementation please execute `source venv/bin/activate`. If the virtual environment does not work please execute the following commands in order.
+
+1) virtualenv -p /usr/bin/pypy3 venv
+2) source venv/bin/activate
+3) pip3 install numpy 
+4) pip3 install pandas
+5) pip3 install pd
+6) Go to `png.py` in `venv/lib/pypy3.9/site-packages/_plotly_utils` and comment out lines 1217 - 1247 shown below
+```
+# row = next(t)
+# del t
+
+# testelement = row
+# if "width" not in info:
+#     width = len(row) // planes
+#     info["width"] = width
+
+# if "bitdepth" not in info:
+#     try:
+#         dtype = testelement.dtype
+#         # goto the "else:" clause.  Sorry.
+#     except AttributeError:
+#         try:
+#             # Try a Python array.array.
+#             bitdepth = 8 * testelement.itemsize
+#         except AttributeError:
+#             # We can't determine it from the array element's datatype,
+#             # use a default of 8.
+#             bitdepth = 8
+#     else:
+#         # If we got here without exception,
+#         # we now assume that the array is a numpy array.
+#         if dtype.kind == "b":
+#             bitdepth = 1
+#         else:
+#             bitdepth = 8 * dtype.itemsize
+#     info["bitdepth"] = bitdepth
+
+# for thing in ["width", "height", "bitdepth", "greyscale", "alpha"]:
+#     assert thing in info``
+
+```
+
 # Usage
 To run our program for Blotto, the first command line argument should be "--Blotto", the second argument should be the number of units, and the following arguments should be the scoring distribution. For example, `pypy3 ga_visualization.py --Blotto 1 2 3 4` will run Blotto with 1 unit, and 3 battlefields with respective scores 2/3/4.
 
