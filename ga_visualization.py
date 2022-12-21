@@ -40,7 +40,7 @@ if __name__ == "__main__":
             populations.append(grid.generate_population(new_fitness))
             prev = sum(new_fitness)
         
-        print(game.population)
+        # print(game.population)
 
     if sys.argv[1] == "--Cribbage":
         game  = Cribbage_GA()

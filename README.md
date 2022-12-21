@@ -52,20 +52,16 @@ We again used softmax to convert the fitness scores into probabilities, and for 
 ## Mutation
 We introduced an exploratory aspect of our genetic algorithm for Cribbage by randomly mutating individuals with probability epsilon = 0.2. This meant that for 20% of the time we would slightly vary one of the parameters of an individual randomly. 
 
-
-# Visualization
-In order to visualize the progression of fitness for generations (`ga_visualization.py`), we decided to use the python `Plotly` library. The n x n square grid (`generate_grid.py`) represents a population of n x n individuals, with each grid cell representing the fitness of an individual. Since `plotly` requires a (R, G, B) tuple in order to render images, we created a function that mapped our fitness values to a number between the length of our color gradient (and in the case that the range of fitness values is less than the length of the color gradient, scales the fitness values up). The first color on the fitness function yellowish color shown on the screen indicates a lower fitness value, whereas the dark shade of green indicates a high fitness value.
-
-From the visualization output, we can see that the squares (individuals) with higher fitness begin to dominate more and more of the grid as time goes on, but they never fully converge and take over the grid because of the element of mutation. The side-by-side images of the initial population and the current population, as the algorithm iterates, serve as a helpful illustration of the algorithm's progress.
-
-
 ## Preliminary Results
 Here is a gif showing our genetic algorithm visualization for sixteen individuals and the progression of their fitness over 10 generations. As you can see, there does not seem to be any significant improvement/change of the fitness of individuals. We hypothesize that this could be due to various factors, including insufficient population size, improper definition of fitness(ex. in an extension of this project, we might try defining fitness as the number of wins instead of the sum of the total scores) or the variation inherent to the Cribbage pegging phase itself. Furthermore, it was extremely hard to test this module even with the `JIT Compiler` given the long run time for the fitness function per individual, (the result below with 16 individuals took around 3 - 4 hours).
 
 
 ![Cribbage.gif](images/Cribbage.gif)
 
+# Visualization
+In order to visualize the progression of fitness for generations (`ga_visualization.py`), we decided to use the python `Plotly` library. The n x n square grid (`generate_grid.py`) represents a population of n x n individuals, with each grid cell representing the fitness of an individual. Since `plotly` requires a (R, G, B) tuple in order to render images, we created a function that mapped our fitness values to a number between the length of our color gradient (and in the case that the range of fitness values is less than the length of the color gradient, scales the fitness values up). The first color on the fitness function yellowish color shown on the screen indicates a lower fitness value, whereas the dark shade of green indicates a high fitness value.
 
+From the visualization output, we can see that the squares (individuals) with higher fitness begin to dominate more and more of the grid as time goes on, but they never fully converge and take over the grid because of the element of mutation. The side-by-side images of the initial population and the current population, as the algorithm iterates, serve as a helpful illustration of the algorithm's progress.
 
 
 

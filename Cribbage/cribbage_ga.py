@@ -20,10 +20,10 @@ class Cribbage_GA:
     def evaluate_fitness(self):
         self.fitness = []
         for individual in self.population:
-            print(individual)
+            # print(individual)
             individual_policy = MyPolicy(self.game, individual)
             results = evaluate_policies(self.game, individual_policy,self.benchmark, self.games)
-            print(results)
+            # print(results)
             self.fitness.append(results[0])
             
     
