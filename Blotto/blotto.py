@@ -11,7 +11,6 @@ class Blotto:
         self.battle_fields = len(score_distribution)
         self.num_individuals = 256
         self.possible_distributions = self.partition_battle_field_units()
-
         self.target_distributions = self.generate_targets()
         self.population = self.generate_individuals()
         self.fitness = []
@@ -28,7 +27,8 @@ class Blotto:
         return [choice(self.possible_distributions) for _ in range(self.num_individuals)]
 
     def generate_targets(self):
-        return sample(self.possible_distributions, len(self.possible_distributions))
+        return[choice(self.possible_distributions) for _ in range(self.num_individuals)]
+        return sample(self.possible_distributions, self.num_individuals)
 
     def play(self, individual_one, individual_two):
         """Plays a distribution of units against each other and returns the value for player 1 """
@@ -55,9 +55,11 @@ class Blotto:
                 if individual == target:
                     continue
                 curr_fitness += self.play(individual, target)
-
+            
+            # curr_fitness /= len(self.target_distributions)
             self.fitness.append(curr_fitness)
         return self.fitness
+
     def mutate(self, individual):
         if uniform(0,1) < MUTATE_PROB:
             index = randint(0, self.battle_fields - 1)
@@ -65,19 +67,22 @@ class Blotto:
             individual_sum = sum(individual)
             if individual_sum > self.units:
                 diff = individual_sum - self.units
-                for index in range(self.battle_fields):
-                    if individual[index] - diff > 0:
-                        individual[index] -= diff
-
-
-
-
+                test = np.array(individual) - diff
+                print(test)
+                index = choice(np.where(test >= 0)[0])
+                individual[index] -= diff
+            
 
     def crossover(self):
         fitness = self.evaluate_fitness()
+        # need to scale fitness
+        
         probs = np.array(fitness)
+        # print(probs)
+        # print(np.exp(probs))
+        # print(np.sum(np.exp(probs)))
         probs = np.exp(probs) / np.sum(np.exp(probs))
-
+        # exit()    
         children = []
         for i in range(int(self.num_individuals / 2)):
             parent_one = self.population[np.random.choice(range(self.num_individuals), 1, p=probs)[0]]
@@ -93,26 +98,28 @@ class Blotto:
                 else:
                     child_one[i] = parent_two[i]
                     child_two[i] = parent_one[i]
+                    
+                    
             child_one_sum = sum(child_one)
             child_two_sum = sum(child_two)
 
             if child_one_sum > self.units:
                 diff = child_one_sum - self.units
-                for i in range(self.battle_fields):
-                    if child_one[i] - diff >= 0:
-                        child_one[i] -= diff
+                test = np.array(child_one) - diff
+                index = choice(np.where(test >= 0)[0])
+                child_one[index] -= diff
+                
             if child_two_sum > self.units:
                 diff = child_two_sum - self.units
+                test = np.array(child_two) - diff
+                index = choice(np.where(test >= 0)[0])
+                child_two[index] -= diff
 
-                for i in range(self.battle_fields):
-                    if child_two[i] - diff >= 0:
-                        child_two[i] -= diff
 
             self.mutate(child_one)
             self.mutate(child_two)
             children.append(child_one)
             children.append(child_two)
-
         self.population = children
         return fitness
 

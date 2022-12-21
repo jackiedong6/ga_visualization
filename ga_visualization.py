@@ -27,14 +27,25 @@ if __name__ == "__main__":
             scoring_distribution.append(int(sys.argv[i]))
 
         game = Blotto(units, scoring_distribution)
-
+            
+            
         initial_fitness = game.evaluate_fitness()
         dim = int(game.num_individuals ** (1/2))
-        print(dim)
+        x = np.array(initial_fitness).reshape(dim, dim)
         grid = Grid(dim, dim)
         populations.append(grid.generate_population(initial_fitness))
-        for _ in range(30):
-            populations.append(grid.generate_population(game.crossover()))
+        
+        prev = sum(initial_fitness)
+        
+        
+        
+        while True: 
+            new_fitness = game.crossover()
+            if sum(new_fitness) < prev: 
+                break
+            populations.append(grid.generate_population(new_fitness))
+            prev = sum(new_fitness)
+            
 
     if sys.argv[1] == "--Cribbage":
         game  = Cribbage_GA()
@@ -66,10 +77,10 @@ if __name__ == "__main__":
 
 
     legend = grid.generate_legend()
-    populations = np.array(populations, dtype = np.uint8)
+    populations = np.array(populations)
 
     fig = make_subplots(rows=1, cols = 3, horizontal_spacing=0.05,
-                        subplot_titles=("Initial Population", "Original Population", "Fitness Function"),  column_widths=[0.5, 0.5, 0.09])
+                        subplot_titles=("Initial Population", "Current Population", "Fitness Function"),  column_widths=[0.5, 0.5, 0.09])
 
     fig_px = px.imshow(populations, animation_frame=0)
     sliders = fig_px.layout.sliders
@@ -82,7 +93,6 @@ if __name__ == "__main__":
                              ],
                        traces=[0, 1, 2], name=str(k)) for k in range(populations.shape[0])]
 
-#     fig.add_annotation(text = "hello world", align = "left")
     fig.add_trace(go.Image(z=populations[0]), row=1, col=1)
     fig.add_trace(go.Image(z=populations[1]), row=1, col=2)
     fig.add_trace(go.Image(z = legend), row = 1, col = 3)

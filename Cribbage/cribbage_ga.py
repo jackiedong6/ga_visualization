@@ -1,6 +1,4 @@
-
-
-
+#!/usr/bin/env pypy3
 from .policy import CompositePolicy, RandomThrower, RandomPegger, GreedyThrower, GreedyPegger
 from .cribbage import Game, evaluate_policies
 from .my_policy import MyPolicy
@@ -13,7 +11,7 @@ class Cribbage_GA:
     def __init__(self):
         self.game = game = Game()
         self.benchmark = CompositePolicy(game, GreedyThrower(game), GreedyPegger(game))
-        self.games = 100
+        self.games = 1000
         self.num_individuals = 16
         self.num_parameters = 3
         self.population = self.generate_individuals()
@@ -27,6 +25,8 @@ class Cribbage_GA:
             results = evaluate_policies(self.game, individual_policy,self.benchmark, self.games)
             print(results)
             self.fitness.append(results[0])
+            
+    
         return self.fitness
 
 
@@ -41,7 +41,7 @@ class Cribbage_GA:
 
 
         if uniform(0,1) < MUTATE_PROB:
-            index = np.ranint(0, num_parameters - 1)
+            index = randint(0, self.num_parameters - 1)
             if randint(0,1):
                 individual[index] -= 0.1
 
@@ -51,8 +51,8 @@ class Cribbage_GA:
 
 
     def crossover(self):
-        fitness = self.evaluate_fitness
-        print(fitness)
+        fitness = self.evaluate_fitness()
+
         probs = np.array(fitness)
         probs = np.exp(probs) / np.sum(np.exp(probs))
 
@@ -82,7 +82,6 @@ class Cribbage_GA:
 
             children.append(child_one)
             children.append(child_two)
-
 
         self.population = children
 
