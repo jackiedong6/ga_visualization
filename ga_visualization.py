@@ -30,9 +30,10 @@ if __name__ == "__main__":
 
         initial_fitness = game.evaluate_fitness()
         dim = int(game.num_individuals ** (1/2))
+        print(dim)
         grid = Grid(dim, dim)
         populations.append(grid.generate_population(initial_fitness))
-        for _ in range(15):
+        for _ in range(30):
             populations.append(grid.generate_population(game.crossover()))
 
     if sys.argv[1] == "--Cribbage":
@@ -68,7 +69,7 @@ if __name__ == "__main__":
     populations = np.array(populations, dtype = np.uint8)
 
     fig = make_subplots(rows=1, cols = 3, horizontal_spacing=0.05,
-                        subplot_titles=("Initial Population", "Original Population", "Legend"))
+                        subplot_titles=("Initial Population", "Original Population", "Fitness Function"),  column_widths=[0.5, 0.5, 0.09])
 
     fig_px = px.imshow(populations, animation_frame=0)
     sliders = fig_px.layout.sliders

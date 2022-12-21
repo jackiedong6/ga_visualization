@@ -24,7 +24,6 @@ class Grid:
     def __init__(self, rows, columns):
         self.rows = rows
         self.cols = columns
-
     def generate_population(self, population):
         global MAX_VALUE, MIN_VALUE
 
