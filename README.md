@@ -60,7 +60,7 @@ From the visualization output, we can see that the squares (individuals) with hi
 
 
 ## Preliminary Results
-Here is a gif showing our genetic algorithm visualization for sixteen individuals and the progression of their fitness over 10 generations. As you can see, there does not seem to be any significant improvement/change of the fitness of individuals. We hypothesize that this could be due to various factors, including insufficient population size, improper definition of fitness(ex. in an extension of this project, we might try defining fitness as the number of wins instead of the sum of the total scores) or the variation inherent to the Cribbage pegging phase itself. Furthermore, it was extremely hard to test this module even with the `JIT Compiler` given the long run time for the fitness function per individual.
+Here is a gif showing our genetic algorithm visualization for sixteen individuals and the progression of their fitness over 10 generations. As you can see, there does not seem to be any significant improvement/change of the fitness of individuals. We hypothesize that this could be due to various factors, including insufficient population size, improper definition of fitness(ex. in an extension of this project, we might try defining fitness as the number of wins instead of the sum of the total scores) or the variation inherent to the Cribbage pegging phase itself. Furthermore, it was extremely hard to test this module even with the `JIT Compiler` given the long run time for the fitness function per individual, (the result below with 16 individuals took around 3 - 4 hours).
 
 
 ![Cribbage.gif](images/Cribbage.gif)
