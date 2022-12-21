@@ -11,6 +11,7 @@
 
 1) virtualenv -p /usr/bin/pypy3 venv
 2) source venv/bin/activate
+3) ALTERNATIVE 3-5): pip install -r requirements
 3) pip3 install numpy 
 4) pip3 install pandas
 5) pip3 install plotly
