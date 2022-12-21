@@ -4,10 +4,6 @@ from Cribbage.policy import CompositePolicy, RandomThrower, RandomPegger, Greedy
 from Cribbage.cribbage import Game, evaluate_policies
 from Cribbage.my_policy import MyPolicy
 from Cribbage.cribbage_ga import Cribbage_GA
-import QFL.nfl_strategy as nfl
-import time
-import QFL.qfl as qfl
-from QFL.const import game_parameters
 from generate_grid import Grid
 import numpy as np
 import pandas

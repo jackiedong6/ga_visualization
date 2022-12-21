@@ -77,11 +77,9 @@ class Blotto:
 
     def crossover(self):
         fitness = self.evaluate_fitness()
-        # need to scale fitness
         
         probs = np.array(fitness)
         probs = np.exp(probs) / np.sum(np.exp(probs))
-        # exit()    
         children = []
         for i in range(int(self.num_individuals / 2)):
             parent_one = self.population[np.random.choice(range(self.num_individuals), 1, p=probs)[0]]

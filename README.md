@@ -6,7 +6,7 @@
 - Jackie Dong (jd2598)
 
 
-![Alt text](vscode-local:/Users/jackiedong/Downloads/Blotto.gif)# Important (Virtual Environment Setup):
+# Important (Virtual Environment Setup):
 - We have included our virtual environment folder called `venv`. The dependencies required for this program are `pandas`, `numpy`, and `plotly`. Before testing our implementation please execute `source venv/bin/activate`. If the virtual environment does not work please execute the following commands in order.
 
 1) virtualenv -p /usr/bin/pypy3 venv
@@ -63,6 +63,7 @@ For our final project, we decided to create a genetic algorithms visualization f
 
 # Blotto
 Here is a gif showing our genetic algorithm visualization for a game of Blotto with 15 units to distribute and five fields all with weights 2.
+
 ![Blotto1.gif](images/Blotto1.gif)
 
 Here is a gif showing our genetic algorithm visualization for a game of Blotto with 10 units to distribute and 4 battle fields with weights 4, 3, 2, 1. 
@@ -70,7 +71,7 @@ Here is a gif showing our genetic algorithm visualization for a game of Blotto w
 ![Blotto2.gif](images/Blotto2.gif)
 
 ## Considerations
-For Blotto (`blotto.py`), we originally considered using mixed strategies, but faced some difficulty with how to conceptualize mutations (that wouldn't result in drastic changes to fitness), especially if the mixed strategies were only comprised of a few pure strategies. Furthermore, it was unclear how to determine the number of pure strategies that each individual should have. In the end, after spending a large number of hours working on Blotto with mixed strategies, we shifted to the case of representing each individual as a single pure strategy.
+For Blotto (`blotto.py`), we originally considered using mixed strategies, but faced some difficulty with how to conceptualize mutations (that wouldn't result in drastic changes to fitness), especially if the mixed strategies were only comprised of a few pure strategies. Furthermore, it was unclear how to determine the number of pure strategies that each individual should have. In the end, after spending a large number of hours working on Blotto with mixed strategies, we shifted to the case of representing each individual as a single pure strategy. We decided to halt our genetic algorithm when the cumulative fitness score of our population began to decrease or not change significantly. Therefore, the number of generations indicated varies based off of how fast our genetic algorithm converges for a given game.
 
 ## Fitness
 We also took a while to decide on how to measure fitness: we originally considered taking a "round robin" approach, playing each generation against each other in order to determine fitness, but it was difficult to evaluate whether the population was improving since we were just playing them against each other. Instead, we ended up sampling a target distribution from the set of all possible distributions, playing each generation against the target distribution, and defining each individual's fitness as the total number of wins (win = 1, tie = 0.5). **We experimented with Professor Glenn's suggestion about initializing our target population more meaningfully -- following the Deep Q Learning Framework we saw in class and replacing the randomized target population after some fixed amount of iterations)**. However, we ran into two problems. If we replaced the target population midway through the genetic algorithm with some previous augmented population, our visual representation of the progression of earlier generations would be rendered false as the fitness evaluations would suddenly be changed to a different scale. The alternative to this was evolving the target population to be some more meaningful population, but that also posed issues in cases such as a game with 2 units and two fields with weights 1 and 2. Games similar to this manner converge extremely quickly and so the target population would essentially be the optimal solution already.
@@ -97,7 +98,6 @@ We again used softmax to convert the fitness scores into probabilities, and for 
 ## Mutation
 We introduced an exploratory aspect of our genetic algorithm for Cribbage by randomly mutating individuals with probability epsilon = 0.2. This meant that for 20% of the time we would slightly vary one of the parameters of an individual randomly. 
 
----
 
 # Visualization
 In order to visualize the progression of fitness for generations (`ga_visualization.py`), we decided to use the python `Plotly` library. The n x n square grid (`generate_grid.py`) represents a population of n x n individuals, with each grid cell representing the fitness of an individual. Since `plotly` requires a (R, G, B) tuple in order to render images, we created a function that mapped our fitness values to a number between the length of our color gradient (and in the case that the range of fitness values is less than the length of the color gradient, scales the fitness values up). The first color on the fitness function yellowish color shown on the screen indicates a lower fitness value, whereas the dark shade of green indicates a high fitness value.
