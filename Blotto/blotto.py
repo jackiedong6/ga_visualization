@@ -28,7 +28,7 @@ class Blotto:
 
     def generate_targets(self):
         return[choice(self.possible_distributions) for _ in range(self.num_individuals)]
-        return sample(self.possible_distributions, self.num_individuals)
+
 
     def play(self, individual_one, individual_two):
         """Plays a distribution of units against each other and returns the value for player 1 """
@@ -68,7 +68,6 @@ class Blotto:
             if individual_sum > self.units:
                 diff = individual_sum - self.units
                 test = np.array(individual) - diff
-                print(test)
                 index = choice(np.where(test >= 0)[0])
                 individual[index] -= diff
             
@@ -78,9 +77,6 @@ class Blotto:
         # need to scale fitness
         
         probs = np.array(fitness)
-        # print(probs)
-        # print(np.exp(probs))
-        # print(np.sum(np.exp(probs)))
         probs = np.exp(probs) / np.sum(np.exp(probs))
         # exit()    
         children = []
