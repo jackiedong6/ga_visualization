@@ -13,7 +13,7 @@
 2) source venv/bin/activate
 3) pip3 install numpy 
 4) pip3 install pandas
-5) pip3 install pd
+5) pip3 install plotly
 6) Go to `png.py` in `venv/lib/pypy3.9/site-packages/_plotly_utils` and comment out lines 1217 - 1247 shown below
 ```
 # row = next(t)
