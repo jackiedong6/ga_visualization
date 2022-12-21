@@ -58,6 +58,17 @@ In order to visualize the progression of fitness for generations (`ga_visualizat
 
 From the visualization output, we can see that the squares (individuals) with higher fitness begin to dominate more and more of the grid as time goes on, but they never fully converge and take over the grid because of the element of mutation. The side-by-side images of the initial population and the current population, as the algorithm iterates, serve as a helpful illustration of the algorithm's progress.
 
+
+## Preliminary Results
+Here is a gif showing our genetic algorithm visualization for sixteen individuals and the progression of their fitness over 10 generations. As you can see, there does not seem to be any significant improvement/change of the fitness of individuals. We hypothesize that this could be due to various factors, including insufficient population size, improper definition of fitness(ex. in an extension of this project, we might try defining fitness as the number of wins instead of the sum of the total scores) or the variation inherent to the Cribbage pegging phase itself. Furthermore, it was extremely hard to test this module even with the `JIT Compiler` given the long run time for the fitness function per individual.
+
+
+![Cribbage.gif](images/Cribbage.gif)
+
+
+
+
+
 # Virtual Environment Installation
 1) virtualenv -p /usr/bin/pypy3 venv
 2) source venv/bin/activate
