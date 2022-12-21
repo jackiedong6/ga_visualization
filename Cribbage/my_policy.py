@@ -12,11 +12,15 @@ simulated_data = {(1, 12): 4.033074606116775, (9, 13): 3.6586538461538463, (3, 1
 
 
 SCORE_15 = 0
-LOW_CARD = 0
-
+LEAD_FOUR = 0
+OVER_15 = 0
 
 class MyPolicy(CribbagePolicy):
-    def __init__(self, game):
+    def __init__(self, game, weights):
+        global SCORE_15, LEAD_FOUR, OVER_15
+        SCORE_15 = weights[0]
+        LOW_CARD = weights[1]
+        OVER_15 = weights[2]
         self._policy = CompositePolicy(game, HeuristicThrower(game), HeuristicPegger(game))
 
 
@@ -159,7 +163,7 @@ class HeuristicPegger(PegPolicy):
                     card_count[self._game.rank_value(card.rank())].append(card)
                     if card.rank() == 4:
 
-                        card_weight[card] += 2
+                        card_weight[card] += LEAD_FOUR
                     if card.rank() == 5:
                         card_weight[card] -= 1
 
@@ -190,9 +194,9 @@ class HeuristicPegger(PegPolicy):
 
                     ## Might be redundant
                     if self._game.rank_value(card.rank()) + currentTotal == 15:
-                        card_weight[card] += 2
+                        card_weight[card] += SCORE_15
                     if self._game.rank_value(card.rank()) + currentTotal > 15:
-                        card_weight[card] += 1.5
+                        card_weight[card] += OVER_15
             else:
                 max_rank = 0
                 max_card = None

@@ -2,6 +2,7 @@ from random import choice, uniform, randint, sample
 from itertools import combinations
 import numpy as np
 
+MUTATE_PROB = 0.2
 
 class Blotto:
     def __init__(self, units, score_distribution):
@@ -57,6 +58,20 @@ class Blotto:
 
             self.fitness.append(curr_fitness)
         return self.fitness
+    def mutate(self, individual):
+        if uniform(0,1) < MUTATE_PROB:
+            index = randint(0, self.battle_fields - 1)
+            individual[index] = randint(0, self.units)
+            individual_sum = sum(individual)
+            if individual_sum > self.units:
+                diff = individual_sum - self.units
+                for index in range(self.battle_fields):
+                    if individual[index] - diff > 0:
+                        individual[index] -= diff
+
+
+
+
 
     def crossover(self):
         fitness = self.evaluate_fitness()
@@ -92,11 +107,12 @@ class Blotto:
                 for i in range(self.battle_fields):
                     if child_two[i] - diff >= 0:
                         child_two[i] -= diff
+
+            self.mutate(child_one)
+            self.mutate(child_two)
             children.append(child_one)
             children.append(child_two)
 
         self.population = children
         return fitness
 
-    def mutate(self, individual):
-        pass

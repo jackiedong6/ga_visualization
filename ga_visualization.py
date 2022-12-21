@@ -3,20 +3,21 @@ from Blotto.blotto import Blotto
 from Cribbage.policy import CompositePolicy, RandomThrower, RandomPegger, GreedyThrower, GreedyPegger
 from Cribbage.cribbage import Game, evaluate_policies
 from Cribbage.my_policy import MyPolicy
+from Cribbage.cribbage_ga import Cribbage_GA
 import QFL.nfl_strategy as nfl
 import time
 import QFL.qfl as qfl
 from QFL.const import game_parameters
 from generate_grid import Grid
 import numpy as np
+import pandas
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 
-
 if __name__ == "__main__":
-
+    # print(plotly.__version__, pandas.__version__, np.__version__)
     populations = []
     if sys.argv[1] == "--Blotto":
         tolerance = 10 ** -6
@@ -35,21 +36,15 @@ if __name__ == "__main__":
             populations.append(grid.generate_population(game.crossover()))
 
     if sys.argv[1] == "--Cribbage":
-        games = 2
-        if len(sys.argv) > 2:
-            games = int(sys.argv[2])
+        game  = Cribbage_GA()
+        initial_fitness = game.evaluate_fitness()
+        dim = int(game.num_individuals ** (1/2))
+        grid = Grid(dim, dim)
+        populations.append(grid.generate_population(initial_fitness))
+        for _ in range(5):
+            populations.append(grid.generate_population(game.crossover()))
 
-        game = Game()
-        benchmark = CompositePolicy(game, GreedyThrower(game), GreedyPegger(game))
-        submission = MyPolicy(game)
 
-        results = evaluate_policies(game, submission, benchmark, games)
-
-        print("NET:", results[0])
-        print(results)
-
-<<<<<<< HEAD
-=======
     if sys.argv[1] == "--qfl":
         # `example: python3 ga_visualization.py --qfl 0 9 250000`
         if len(sys.argv) > 2:
@@ -68,30 +63,41 @@ if __name__ == "__main__":
         
         sys.exit() # dk if the figure will work here
 
->>>>>>> d042e33b819afc7bf93982eabd05c25b58f61d82
-    populations = np.array(populations)
 
-    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.01,
-                        subplot_titles=("Initial Population", "Original Population"))
+    legend = grid.generate_legend()
+    populations = np.array(populations, dtype = np.uint8)
+
+    fig = make_subplots(rows=1, cols = 3, horizontal_spacing=0.05,
+                        subplot_titles=("Initial Population", "Original Population", "Legend"))
 
     fig_px = px.imshow(populations, animation_frame=0)
-
     sliders = fig_px.layout.sliders
     updatemenus = fig_px.layout.updatemenus
 
-    frames = [go.Frame(data=[go.Image(z=populations[0]),
-                             go.Image(z=populations[k], visible=True, name=str(k)),
-                             ],
-                       traces=[0, 1], name=str(k)) for k in range(populations.shape[0])]
 
+    frames  = [go.Frame(data=[go.Image(z=populations[0]),
+                             go.Image(z=populations[k], visible=True, name=str(k)),
+                             go.Image(z=legend),
+                             ],
+                       traces=[0, 1, 2], name=str(k)) for k in range(populations.shape[0])]
+
+#     fig.add_annotation(text = "hello world", align = "left")
     fig.add_trace(go.Image(z=populations[0]), row=1, col=1)
     fig.add_trace(go.Image(z=populations[1]), row=1, col=2)
+    fig.add_trace(go.Image(z = legend), row = 1, col = 3)
+#     fig.add_trace(go.Image(z=legend), row = 1, col = 3)
 
     fig.update_yaxes(visible=False, showticklabels=False)
     fig.update_xaxes(visible=False, showticklabels=False)
 
     fig.update(frames=frames)
     fig.update_layout(updatemenus=updatemenus, sliders=sliders)
-    fig.update_layout(sliders=[{"currentvalue": {"prefix": "Current Generation="}}])
+    fig.update_layout(sliders=[{"currentvalue": {"prefix": "Current Generation=","font_size":14}}])
+    fig.update_layout(
+        title = "Genetic Algorithm Visualization for " + sys.argv[1].replace("--", ""),
+        title_font_color = "black",
+        font_size = 24,
+        font_family ="Courier New",
+        font_color = "black")
 
     fig.show()
