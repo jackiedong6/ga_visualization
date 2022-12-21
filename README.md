@@ -6,7 +6,7 @@
 - Jackie Dong (jd2598)
 
 
-# Important (Virtual Environment Setup):
+![Alt text](vscode-local:/Users/jackiedong/Downloads/Blotto.gif)# Important (Virtual Environment Setup):
 - We have included our virtual environment folder called `venv`. The dependencies required for this program are `pandas`, `numpy`, and `plotly`. Before testing our implementation please execute `source venv/bin/activate`. If the virtual environment does not work please execute the following commands in order.
 
 1) virtualenv -p /usr/bin/pypy3 venv
@@ -62,6 +62,13 @@ For our final project, we decided to create a genetic algorithms visualization f
 ---
 
 # Blotto
+Here is a gif showing our genetic algorithm visualization for a game of Blotto with 15 units to distribute and five fields all with weights 2.
+![Blotto1.gif](images/Blotto1.gif)
+
+Here is a gif showing our genetic algorithm visualization for a game of Blotto with 10 units to distribute and 4 battle fields with weights 4, 3, 2, 1. 
+
+![Blotto2.gif](images/Blotto2.gif)
+
 ## Considerations
 For Blotto (`blotto.py`), we originally considered using mixed strategies, but faced some difficulty with how to conceptualize mutations (that wouldn't result in drastic changes to fitness), especially if the mixed strategies were only comprised of a few pure strategies. Furthermore, it was unclear how to determine the number of pure strategies that each individual should have. In the end, after spending a large number of hours working on Blotto with mixed strategies, we shifted to the case of representing each individual as a single pure strategy.
 
@@ -74,7 +81,8 @@ We used softmax to convert the fitness scores into probabilities, and for crosso
 ## Mutation
 In order to introduce exploration into our Blotto genetic algorithm, we randomly mutate individuals with probably epsilon = 0.2. This meant that roughly 20% of the time, we would take an individual and randomly redistribute one of their battlefield distributions.
 
----
+
+
 
 # Cribbage
 
